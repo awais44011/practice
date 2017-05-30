@@ -1,0 +1,77 @@
+<?php
+
+
+require_once("connection.php");
+
+$id="";
+$name="";
+$email="";
+$pass="";
+
+$edit_id=$_GET['edit'];
+
+$run=mysqli_query($conn,"select * from user where id='$edit_id' ");
+
+while($row=mysqli_fetch_array($run)){
+
+    $id=$row[0];
+    $name=$row[1];
+    $email=$row[2];
+    $pass=$row[3];
+
+}
+
+?>
+
+
+    <html>
+
+
+    <body>
+
+    <form action="edit.php?edit_form=<?php echo "$id" ?>"  method="post"  >
+
+        Name:<input type="text" name="uname" value="<?php echo"$name" ?>" />
+
+        Email:<input type="email" name="uemail" value="<?php echo"$email" ?>" />
+
+        Password:<input type="password" name="upass" value="<?php echo"$pass" ?>" />
+
+        <input type="submit" name="update" value="update"/>
+
+
+    </form>
+
+
+    </body>
+
+
+    </html>
+
+
+
+
+<?php
+
+
+require_once("connection.php");
+
+if(isset($_POST["update"])){
+
+
+    $uid=$_GET['edit_form'];
+    $uname=$_POST['uname'];
+    $uemail=$_POST['uemail'];
+    $upass=$_POST['upass'];
+
+
+    if(mysqli_query($conn,"update user set name='$uname',email='$uemail',pass='$upass' where id=$uid ")){
+
+
+        echo " updated  ";
+    }
+
+}
+
+
+?>
